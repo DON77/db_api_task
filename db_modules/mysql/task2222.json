@@ -1,0 +1,10 @@
+{
+  "profileKey": "string",
+  "taskType": "string",
+  "status": "string",
+  "statusId": "string",
+  "startTime": "string",
+  "finishTime": "string",
+  "result": "string",
+  "taskMessages": "string"
+}
