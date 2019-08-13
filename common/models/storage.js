@@ -49,23 +49,25 @@ module.exports = function(Storage) {
 
       if (!Array.isArray(ctx.instance.DbStructure)) return false;
 
-      ctx.instance.DbStructure.forEach((table) => {
+      ctx.instance.DbStructure.forEach((modelData) => {
+
+        const modelName = ctx.instance.DbPrefixTable + "_" + modelData.name;
 
         //create a model from JSON defination
-        const model = loopback.createModel(table.name, table.structure);
+        const model = loopback.createModel(modelName, modelData.properties);
 
         //attach model to a datasource and app
         app.model(model, { dataSource: datasourceName });
 
-        datasource.autoupdate(table.name, function (err, result) {
+        datasource.autoupdate(modelName, function (err, result) {
 
           logger.info("structure created");
 
           // todo - error handling
 
-          saveModelToFile(table.name, model);
+          saveModelToFile(modelName, model);
 
-          associateModelToDatasource(table.name, datasourceName)
+          associateModelToDatasource(modelName, datasourceName)
 
         });
       });
@@ -96,9 +98,7 @@ module.exports = function(Storage) {
 
       if (!dataSource) return cb(`datasource '${datasourceName}' is not found`, null);
 
-      if (tableName == "account" || tableName == "task") {
-        tableName = storage["DbPrefixTable"] + "_" + tableName;
-      }
+      tableName = storage["DbPrefixTable"] + "_" + tableName;
 
       return cb(null, dataSource.models[tableName], storage["DbPrefixTable"]);
     });
@@ -115,20 +115,29 @@ module.exports = function(Storage) {
   // create a system model like account or task
   const createSystemModel = (engineType, DbPrefixTable, modelName, datasourceName, datasource, app) => {
     const filePath = path.resolve(__dirname, "..", "..", "db_modules", engineType, modelName + ".json");
-    const structure = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    
+    fs.access(filePath, fs.F_OK, (err) => {
+      if (err) {
+        console.log("error: DB module not exist");
+        throw "error: DB module not exist";
+      }
 
-    modelName = DbPrefixTable + "_" + modelName;
+      const structure = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
-    const model = loopback.createModel(modelName, structure);
-    //attach model to a datasource and app
-    app.model(model, { dataSource: datasourceName });
+      modelName = DbPrefixTable + "_" + modelName;
 
-    datasource.autoupdate(modelName, function (err, result) {
-      logger.info(modelName + " structure created");
+      const model = loopback.createModel(modelName, structure);
+      //attach model to a datasource and app
+      app.model(model, { dataSource: datasourceName });
 
-      saveModelToFile(modelName, model);
+      datasource.autoupdate(modelName, function (err, result) {
+        logger.info(modelName + " structure created");
 
-      associateModelToDatasource(modelName, datasourceName);
+        saveModelToFile(modelName, model);
+
+        associateModelToDatasource(modelName, datasourceName);
+
+      });
 
     });
   }
