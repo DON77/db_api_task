@@ -12,22 +12,5 @@
 		"name": "mysql",
 		"connector": "mysql",
 		"createDatabase": true
-	},
-	"mysql_monday1": {
-		"name": "mysql_monday1",
-		"connector": "mysql",
-		"host": "3.1.5.91",
-		"port": 11881,
-		"database": "monday1",
-		"username": "root",
-		"password": "pass",
-		"createDatabase": true,
-		"debug": false,
-		"collation": "utf8_general_ci",
-		"charset": "utf8",
-		"supportBigNumbers": false,
-		"timezone": "local",
-		"connectionLimit": 10,
-		"legacyUtcDateProcessing": true
 	}
 }

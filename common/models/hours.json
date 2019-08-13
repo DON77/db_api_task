@@ -1,1 +1,0 @@
-{"name":"hours","base":"PersistedModel","properties":{"key":"string","value":"string","id":{"id":1,"generated":true,"updateOnly":true}}}

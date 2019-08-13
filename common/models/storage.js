@@ -218,7 +218,7 @@ module.exports = function(Storage) {
   Storage.remoteMethod('importAccounts', {
       accepts: [
         { arg: 'storageId', type: 'string', required: true},
-        { arg: 'body', type: 'object', http: { source: 'body' } }
+        { arg: 'body', type: { "url": "string" }, http: { source: 'body' } }
       ],
       http: {
         path: '/:storageId/account/import',

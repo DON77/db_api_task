@@ -1,1 +1,0 @@
-{"name":"monday1_task","base":"PersistedModel","properties":{"profileKey":"string","taskType":"string","status":"string","statusId":"string","startTime":"string","finishTime":"string","result":"string","taskMessages":"string","id":{"id":1,"generated":true,"updateOnly":true}}}

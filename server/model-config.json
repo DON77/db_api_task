@@ -35,17 +35,5 @@
 	"storage": {
 		"dataSource": "mysql",
 		"public": true
-	},
-	"monday1_account": {
-		"dataSource": "mysql_monday1",
-		"public": true
-	},
-	"monday1_task": {
-		"dataSource": "mysql_monday1",
-		"public": true
-	},
-	"hours": {
-		"dataSource": "mysql_monday1",
-		"public": true
 	}
 }
